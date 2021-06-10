@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react';
 import { Form, Button, Card, Alert } from 'react-bootstrap';
 import { useAuth } from '../contexts/AuthContext';
 import './form.css';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 export default function Login() {
   const emailRef = useRef();
@@ -16,6 +16,9 @@ export default function Login() {
 
   // Create state variable to manage loading and to prevent certain actions during loading
   const [isLoading, setLoading] = useState(false);
+
+  // Redirect to the dashboard within the authentication with useHistory hook from react-router-dom
+  const history = useHistory();
 
   // handleSubmit method passed into form onSubmit
   // Async method to wait for user sign in process
@@ -32,6 +35,8 @@ export default function Login() {
       // Use the signup method destructured from AuthContext.js
       // to sign in the user with the email and password provided.
       await login(emailRef.current.value, passRef.current.value);
+      // Redirect to the user dashboard page component upon authentication
+      history.push('/');
     } catch {
       setError('Failed to sign user in.');
     }
