@@ -53,18 +53,36 @@ export default function Signup() {
           <Form onSubmit={handleSubmit}>
             <Form.Group id='email'>
               <Form.Label>Email</Form.Label>
-              <Form.Control type='email' ref={emailRef} required />
+              <Form.Control
+                placeholder='Your email address'
+                autoComplete='username'
+                type='email'
+                ref={emailRef}
+                required
+              />
             </Form.Group>
             <Form.Group id='password' style={{ marginTop: '1rem' }}>
               <Form.Label>Password</Form.Label>
-              <Form.Control type='password' ref={passRef} required />
+              <Form.Control
+                placeholder='Choose a secure password'
+                autoComplete='new-password'
+                type='password'
+                ref={passRef}
+                required
+              />
             </Form.Group>
             <Form.Group
               id='password-confirmation'
               style={{ marginTop: '1rem' }}
             >
               <Form.Label>Password</Form.Label>
-              <Form.Control type='password' ref={passConfirmRef} required />
+              <Form.Control
+                placeholder='Re-type secure password'
+                autoComplete='new-password'
+                type='password'
+                ref={passConfirmRef}
+                required
+              />
             </Form.Group>
             <Button
               // Disable the buton with a bool value that correlates with isLoading
