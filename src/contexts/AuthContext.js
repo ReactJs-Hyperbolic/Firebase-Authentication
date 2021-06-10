@@ -16,10 +16,14 @@ export function AuthProvider({ children }) {
   // State to determine if we're currently loading or not - default to true
   const [isLoading, setIsLoading] = useState(true);
 
-  // Create a method to sign-up a user (bundled into value object with currentUser to be passed in context)
+  // Create a method using Firebase 'auth' method to register a user (bundle into value object with currentUser to be passed in context)
   function signup(email, password) {
     //   Returns a promise
     return auth.createUserWithEmailAndPassword(email, password);
+  }
+
+  function login(email, password) {
+    return auth.signInWithEmailAndPassword(email, password);
   }
 
   // useEffect() so it only runs once when we mount our component
@@ -38,6 +42,7 @@ export function AuthProvider({ children }) {
   // which can then be passed through children components
   const value = {
     currentUser,
+    login,
     signup,
   };
 
