@@ -1,10 +1,11 @@
 import React from 'react';
 import Signup from './Signup';
 import { Container } from 'react-bootstrap';
-import { AuthProvider } from '../Components/Context/AuthContext';
+import { AuthProvider } from '../contexts/AuthContext';
 
 function App() {
   return (
+    // Wrap everything in AuthProvider (Custom context provider) to give access to child components
     <AuthProvider>
       <Container
         className='d-flex align-items-center justify-content-center'

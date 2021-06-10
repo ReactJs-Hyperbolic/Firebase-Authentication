@@ -1,30 +1,44 @@
 import React, { useRef, useState } from 'react';
 import { Form, Button, Card, Alert } from 'react-bootstrap';
-import { useAuth } from './Context/AuthContext';
+import { useAuth } from '../contexts/AuthContext';
+import './form.css';
 
 export default function Signup() {
   const emailRef = useRef();
   const passRef = useRef();
   const passConfirmRef = useRef();
-  const { signup } = useAuth();
-  const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false);
 
+  // Destructure the 'value' object passed into the provider within the AuthContext, accessible through the custom useAuth hook
+  const { signup } = useAuth();
+
+  // Create state for error messages which is initially empty
+  const [error, setError] = useState('');
+
+  // Create state variable to manage loading and to prevent certain actions during loading
+  const [isLoading, setLoading] = useState(false);
+
+  // handleSubmit method passed into form onSubmit
+  // Async method to wait for user sign in process
   async function handleSubmit(e) {
+    // Prevent our form from refreshing
     e.preventDefault();
 
-    // Validation checks
+    // Check that both passwords are matching (password -> passwordConfirm)
     if (passRef.current.value !== passConfirmRef.current.value) {
-      // Set an error with new state
-      return setError('Passwords do not match');
+      // Passwords DON'T match - setError message and Return out of this function because there was an error.
+      return setError('Passwords do not match!');
     }
 
     try {
+      // Clear error messages
       setError('');
+      // Loading is true until the signup method is done
       setLoading(true);
+      // Use the signup method destructured from AuthContext.js
+      // to sign in the user with the email and password provided.
       await signup(emailRef.current.value, passRef.current.value);
     } catch {
-      setError('Failed to create user');
+      setError('Failed to create an account');
     }
     setLoading(false);
   }
@@ -34,22 +48,32 @@ export default function Signup() {
       <Card>
         <Card.Body>
           <h2 className='text-center mb-4'>Sign Up</h2>
-          {error && <Alert variant='danger'>Error</Alert>}
+          {/* If there IS an error, use bootstrap Alert element to display the error state variable message */}
+          {error && <Alert variant='danger'>{error}</Alert>}
           <Form onSubmit={handleSubmit}>
             <Form.Group id='email'>
               <Form.Label>Email</Form.Label>
               <Form.Control type='email' ref={emailRef} required />
             </Form.Group>
-            <Form.Group id='password'>
+            <Form.Group id='password' style={{ marginTop: '1rem' }}>
               <Form.Label>Password</Form.Label>
               <Form.Control type='password' ref={passRef} required />
             </Form.Group>
-            <Form.Group id='password-confirmation'>
-              <Form.Label>Email</Form.Label>
+            <Form.Group
+              id='password-confirmation'
+              style={{ marginTop: '1rem' }}
+            >
+              <Form.Label>Password</Form.Label>
               <Form.Control type='password' ref={passConfirmRef} required />
             </Form.Group>
-            {/* Set disabled state to same bool value as 'if loading' */}
-            <Button disabled={loading} className='w-100' type='submit'>
+            <Button
+              // Disable the buton with a bool value that correlates with isLoading
+              disabled={isLoading}
+              className='w-100'
+              // type=submit to submit the form data, triggering the handleSubmit method
+              type='submit'
+              style={{ marginTop: '2rem' }}
+            >
               Sign Up
             </Button>
           </Form>
