@@ -1,13 +1,25 @@
 import React, { useState } from 'react';
 import { Card, Button, Alert } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 
 export default function Dashboard() {
   const [error, setError] = useState('');
-  const { currentUser } = useAuth();
+  const { currentUser, logout } = useAuth();
+  const history = useHistory();
 
-  function handleLogout() {}
+  //   Function needs to be async since we're awaiting within (for logout() method to return)
+  async function handleLogout() {
+    setError('');
+
+    try {
+      //   await out logout function from context which returns a promise (hence the await)
+      await logout();
+      history.push('/');
+    } catch (error) {
+      setError('Failed to log out:', error);
+    }
+  }
 
   return (
     <>

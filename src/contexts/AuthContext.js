@@ -18,12 +18,13 @@ export function AuthProvider({ children }) {
 
   // Create a method using Firebase 'auth' method to register a user (bundle into value object with currentUser to be passed in context)
   function signup(email, password) {
-    //   Returns a promise
     return auth.createUserWithEmailAndPassword(email, password);
   }
-
   function login(email, password) {
     return auth.signInWithEmailAndPassword(email, password);
+  }
+  function logout() {
+    return auth.signOut();
   }
 
   // useEffect() so it only runs once when we mount our component
@@ -43,6 +44,7 @@ export function AuthProvider({ children }) {
   const value = {
     currentUser,
     login,
+    logout,
     signup,
   };
 
