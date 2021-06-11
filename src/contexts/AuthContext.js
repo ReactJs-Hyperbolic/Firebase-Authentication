@@ -29,6 +29,12 @@ export function AuthProvider({ children }) {
   function resetPassword(email) {
     return auth.sendPasswordResetEmail(email);
   }
+  function updateEmail(email) {
+    return currentUser.updateEmail(email);
+  }
+  function updatePassword(password) {
+    return currentUser.updatePassword(password);
+  }
 
   // useEffect() so it only runs once when we mount our component
   useEffect(() => {
@@ -49,6 +55,8 @@ export function AuthProvider({ children }) {
     login,
     logout,
     signup,
+    updateEmail,
+    updatePassword,
     resetPassword,
   };
 
